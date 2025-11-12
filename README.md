@@ -1,2 +1,3 @@
-# SistemaBibliotecario
-Sistema Bibliotecario con IA
+# Sistema Bibliotecario con IA usando la API de OpenAI
+
+## Prerequisitos
