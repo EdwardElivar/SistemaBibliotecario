@@ -15,7 +15,6 @@
 - [Configuración de Clave Secreta](#configuración-de-clave-secreta)
 - [Despliegue en StreamLit](#despliegue-en-streamlit)
 - [Demo en línea](#demo-en-línea)
-- [Extras](#extras)
 - [Créditos y licencias](#créditos-y-licencias)
 
 
@@ -101,14 +100,16 @@ SistemaBibliotecario/
 
 ---
 
-##Configuración de Clave Secreta
+## Configuración de Clave Secreta
 
 Esta aplicación utiliza la API de OpenAI, por lo que debes configurar tu clave secreta (OPEN_API_KEY) antes de ejecutar el proyecto
+
 - Crear una cuenta en: https://platform.openai.com/docs/overview
 - Abonar creditos a la cuenta mediante algun medio de pago
-- Crear el API KEY en https://platform.openai.com/api-keys
+- Crear la SECRET API KEY en https://platform.openai.com/api-keys
 - Configurar tu SECRET KEY en GitHub (OPEN_API_KEY = "TU-CLAVE-SECRETA")
-  
+
+<img width="2972" height="1512" alt="image" src="https://github.com/user-attachments/assets/7e40cafd-23d2-4151-b1da-d9af1457b1d0" />
 
 ---
 
@@ -118,6 +119,9 @@ Esta aplicación utiliza la API de OpenAI, por lo que debes configurar tu clave 
 - Conectar tu cuenta de GitHub con tu cuenta de StreamLit Cloud
 - Seleccionar Crear App - Seleccionar tu repositorio - Definir tu archivo principal (streamlit_app.py)
 - Configurar tu SECRET KEY en StreamLit Cloud (OPEN_API_KEY = "TU-CLAVE-SECRETA")
+
+<img width="3822" height="1842" alt="image" src="https://github.com/user-attachments/assets/06579558-1e4c-43a9-8c5e-f9e2a7bd8fed" />
+
 - Presionar Deploy
 
 ---
@@ -126,12 +130,8 @@ Esta aplicación utiliza la API de OpenAI, por lo que debes configurar tu clave 
 
 [Probar en Streamlit Cloud](https://sistembiblio3-4rgzt6tgddfsosc9fxpbgz.streamlit.app/)
 
----
+<img width="3130" height="2128" alt="image" src="https://github.com/user-attachments/assets/7ef9e25c-8847-49a6-b474-6744a1dd4e4f" />
 
-## Extras 
-
-- **OPENAI_API_KEY** = your_api_key_here
-- **GOOGLE_BOOKS_API_KEY** = your_api_key_here
 ---
 
 ## Créditos y licencias
