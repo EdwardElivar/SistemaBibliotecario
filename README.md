@@ -12,9 +12,11 @@
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Instalación y ejecución](#instalación-y-ejecución)
 - [Próximas mejoras](#próximas-mejoras)
-- [Créditos y licencias](#créditos-y-licencias)
+- [Configuración de Clave Secreta](#configuración-de-clave-secreta)
+- [Despliegue en StreamLit](#despliegue-en-streamlit)
 - [Demo en línea](#demo-en-línea)
 - [Extras](#extras)
+- [Créditos y licencias](#créditos-y-licencias)
 
 
 ## Datos de la versión
@@ -99,12 +101,24 @@ SistemaBibliotecario/
 
 ---
 
-## Créditos y licencias
+##Configuración de Clave Secreta
 
-Desarrollado por **Paul Edwar Muñoz Elivar** como parte de un proyecto de IA aplicada.  
-Licencia: [MIT License](LICENSE)
+Esta aplicación utiliza la API de OpenAI, por lo que debes configurar tu clave secreta (OPEN_API_KEY) antes de ejecutar el proyecto
+- Crear una cuenta en: https://platform.openai.com/docs/overview
+- Abonar creditos a la cuenta mediante algun medio de pago
+- Crear el API KEY en https://platform.openai.com/api-keys
+- Configurar tu SECRET KEY en GitHub (OPEN_API_KEY = "TU-CLAVE-SECRETA")
+  
 
-Si usas parte del código, por favor menciona la fuente o comparte mejoras mediante Pull Requests.
+---
+
+## Despliegue en StreamLit
+
+- Subir proyecto completo a GitHub
+- Conectar tu cuenta de GitHub con tu cuenta de StreamLit Cloud
+- Seleccionar Crear App - Seleccionar tu repositorio - Definir tu archivo principal (streamlit_app.py)
+- Configurar tu SECRET KEY en StreamLit Cloud (OPEN_API_KEY = "TU-CLAVE-SECRETA")
+- Presionar Deploy
 
 ---
 
@@ -118,6 +132,12 @@ Si usas parte del código, por favor menciona la fuente o comparte mejoras media
 
 - **OPENAI_API_KEY** = your_api_key_here
 - **GOOGLE_BOOKS_API_KEY** = your_api_key_here
+---
 
+## Créditos y licencias
 
+Desarrollado por **Paul Edwar Muñoz Elivar** como parte de un proyecto de IA aplicada.  
+Licencia: [MIT License](LICENSE)
+
+Si usas parte del código, por favor menciona la fuente o comparte mejoras mediante Pull Requests.
 
