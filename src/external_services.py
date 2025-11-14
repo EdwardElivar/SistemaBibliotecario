@@ -120,6 +120,13 @@ def _call_openai_for_cover(image_bytes: bytes):
         ],
     )
 
+    # 👇 DEBUG EN STREAMLIT
+    st.markdown("### 📥 DEBUG - Respuesta de OpenAI (objeto)")
+    st.write(resp)
+    
+    st.markdown("#### 📥 DEBUG - resp.choices[0].message.content")
+    st.code(resp.choices[0].message.content, language="json")
+
     print("*****************************************")
     print(OPENAI_API_KEY )
     print("*****************************************")
