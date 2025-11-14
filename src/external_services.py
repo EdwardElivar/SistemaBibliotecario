@@ -36,6 +36,10 @@ def get_openai_api_key():
 OPENAI_API_KEY = get_openai_api_key()
 client = OpenAI(api_key=OPENAI_API_KEY)
 
+
+st.write("¿Existe OPENAI_API_KEY?", "OPENAI_API_KEY" in st.secrets)
+
+
 #********************************************************************************
 #   _CALL_OPENAI_FOR_COVER - Usamos OpenAI para escanear la portada del libro
 #                            y extraer información
