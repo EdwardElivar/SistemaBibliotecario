@@ -10,6 +10,8 @@ import requests
 import streamlit as st # type: ignore
 from openai import OpenAI # pyright: ignore[reportMissingImports]
 
+debug = st.sidebar.checkbox("🛠 Modo debug IA", value=True)
+
 #*****************************************************************************************
 #   GET_OPENAI_API_KEY - Obtiene la clave de la API de OpenAI desde el ambiente 
 #                        donde se esté ejecutando la aplicación, local o StreamLit Cloud
@@ -44,6 +46,16 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 def _call_openai_for_cover(image_bytes: bytes):
 
+     # --- DEBUG: VER LO QUE ENTRA (LA IMAGEN BRUTA) ---
+    if "DEBUG_IA" in st.session_state:
+        debug = st.session_state.DEBUG_IA
+    else:
+        debug = False
+
+    if debug:
+        st.subheader("📸 DEBUG - Imagen capturada (raw)")
+        st.image(image_bytes, caption="Imagen enviada a OpenAI (raw bytes)")
+        
     #Usamos OpenAI para intentar extraer titulo / autor / isbn desde la portada
     img_b64 = base64.b64encode(image_bytes).decode("utf-8")
 
