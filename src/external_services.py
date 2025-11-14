@@ -10,7 +10,6 @@ import requests
 import streamlit as st # type: ignore
 from openai import OpenAI # pyright: ignore[reportMissingImports]
 
-debug = st.sidebar.checkbox("🛠 Modo debug IA", value=True)
 
 #*****************************************************************************************
 #   GET_OPENAI_API_KEY - Obtiene la clave de la API de OpenAI desde el ambiente 
@@ -46,19 +45,25 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 def _call_openai_for_cover(image_bytes: bytes):
 
-     # --- DEBUG: VER LO QUE ENTRA (LA IMAGEN BRUTA) ---
-    if "DEBUG_IA" in st.session_state:
-        debug = st.session_state.DEBUG_IA
-    else:
-        debug = False
+    import base64
+    import json
 
-    if debug:
-        st.subheader("📸 DEBUG - Imagen capturada (raw)")
-        st.image(image_bytes, caption="Imagen enviada a OpenAI (raw bytes)")
+    # ⬇⬇⬇ DEBUG: lo que llega desde la cámara
+    st.markdown("### 🔍 DEBUG - Imagen que se envía a OpenAI")
+    st.write("Tamaño de la imagen (bytes):", len(image_bytes))
+    st.image(image_bytes, caption="Imagen capturada (raw)")
+    # ⬆⬆⬆
+    
         
     #Usamos OpenAI para intentar extraer titulo / autor / isbn desde la portada
     img_b64 = base64.b64encode(image_bytes).decode("utf-8")
 
+    # ⬇⬇⬇ DEBUG: base64 parcial
+    st.markdown("#### 🔍 DEBUG - Imagen en base64 (primeros 300 caracteres)")
+    st.code(img_b64[:300] + "...", language="text")
+    # ⬆⬆⬆
+
+    
     # Prompt para extraer la informacion de la portada
     system_prompt = """
     Eres un asistente para un sistema bibliotecario.
@@ -78,6 +83,11 @@ def _call_openai_for_cover(image_bytes: bytes):
       "isbn": string
     }
     """
+
+    # ⬇⬇⬇ DEBUG: prompt que mandas a OpenAI
+    st.markdown("#### 🔍 DEBUG - System prompt enviado a OpenAI")
+    st.code(system_prompt, language="markdown")
+    # ⬆⬆⬆
 
     # =======================
     # PRINT: Lo que envio
