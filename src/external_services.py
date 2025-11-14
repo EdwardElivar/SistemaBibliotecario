@@ -48,19 +48,19 @@ def _call_openai_for_cover(image_bytes: bytes):
     import base64
     import json
 
-    # ⬇⬇⬇ DEBUG: lo que llega desde la cámara
-    st.markdown("### 🔍 DEBUG - Imagen que se envía a OpenAI")
-    st.write("Tamaño de la imagen (bytes):", len(image_bytes))
-    st.image(image_bytes, caption="Imagen capturada (raw)")
+    # ⬇⬇⬇ PARA DEBUG EN STREAMLIT CLOUD: lo que llega desde la cámara
+    #st.markdown("### 🔍 DEBUG - Imagen que se envía a OpenAI")
+    #st.write("Tamaño de la imagen (bytes):", len(image_bytes))
+    #st.image(image_bytes, caption="Imagen capturada (raw)")
     # ⬆⬆⬆
     
         
     #Usamos OpenAI para intentar extraer titulo / autor / isbn desde la portada
     img_b64 = base64.b64encode(image_bytes).decode("utf-8")
 
-    # ⬇⬇⬇ DEBUG: base64 parcial
-    st.markdown("#### 🔍 DEBUG - Imagen en base64 (primeros 300 caracteres)")
-    st.code(img_b64[:300] + "...", language="text")
+    # ⬇⬇⬇ PARA DEBUG EN STREAMLIT CLOUD: base64 parcial
+    #st.markdown("#### 🔍 DEBUG - Imagen en base64 (primeros 300 caracteres)")
+    #st.code(img_b64[:300] + "...", language="text")
     # ⬆⬆⬆
 
     
@@ -84,9 +84,9 @@ def _call_openai_for_cover(image_bytes: bytes):
     }
     """
 
-    # ⬇⬇⬇ DEBUG: prompt que mandas a OpenAI
-    st.markdown("#### 🔍 DEBUG - System prompt enviado a OpenAI")
-    st.code(system_prompt, language="markdown")
+    # ⬇⬇⬇ PARA DEBUG EN STREAMLIT CLOUD: prompt que mando a OpenAI
+    #st.markdown("#### 🔍 DEBUG - System prompt enviado a OpenAI")
+    #st.code(system_prompt, language="markdown")
     # ⬆⬆⬆
 
     # =======================
@@ -120,12 +120,13 @@ def _call_openai_for_cover(image_bytes: bytes):
         ],
     )
 
-    # 👇 DEBUG EN STREAMLIT
-    st.markdown("### 📥 DEBUG - Respuesta de OpenAI (objeto)")
-    st.write(resp)
+    # ⬇⬇⬇ PARA DEBUG EN STREAMLIT CLOUD 
+    #st.markdown("### 📥 DEBUG - Respuesta de OpenAI (objeto)")
+    #st.write(resp)
     
-    st.markdown("#### 📥 DEBUG - resp.choices[0].message.content")
-    st.code(resp.choices[0].message.content, language="json")
+    #st.markdown("#### 📥 DEBUG - resp.choices[0].message.content")
+    #st.code(resp.choices[0].message.content, language="json")
+    # ⬆⬆⬆
 
     print("*****************************************")
     print(OPENAI_API_KEY )
