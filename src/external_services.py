@@ -193,8 +193,14 @@ def buscar_en_google_books(isbn=None, titulo=None, autor=None):
     else:
         return None
 
-    params = {"q": q, "maxResults": 5}
-
+    # params = {"q": q, "maxResults": 5}
+    params = {
+        "q": q,
+        "maxResults": 5,
+        "printType": "books",  
+        "country": "MX",       # Se debe especificar el PAIS, cuando se ejecuta en local toma la ubicacion de la IP y sin problema,
+    }                          # pero cuando se ejecuta a travez de streamlit en CLOUD, google books tiene restriccion por pais
+                               # y arroja el siguiente error: Cannot determine user location for geographically restricted operation
 
     # 🔍 DEBUG EN STREAMLIT - Lo que enviamos a Google Books
     st.markdown("### 🔍 DEBUG - Consulta enviada a Google Books")
