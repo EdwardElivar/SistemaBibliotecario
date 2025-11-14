@@ -1,0 +1,36 @@
+# --- Archivos de configuración privada ---
+.env
+key.env
+secrets.toml
+
+# --- Archivos de base de datos ---
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Archivos del entorno virtual ---
+venv/
+.env/
+__pycache__/
+*.pyc
+
+# --- Archivos de sistema ---
+.DS_Store
+Thumbs.db
+
+# --- Archivos temporales ---
+*.log
+*.tmp
+*.bak
+
+# --- Configuración de editores ---
+.vscode/
+.idea/
+
+# --- Configuración de Streamlit ---
+.streamlit/
+
+# --- Archivos de compilación / cache ---
+*.egg-info/
+build/
+dist/
