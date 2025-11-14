@@ -202,11 +202,11 @@ def buscar_en_google_books(isbn=None, titulo=None, autor=None):
     }                          # pero cuando se ejecuta a travez de streamlit en CLOUD, google books tiene restriccion por pais
                                # y arroja el siguiente error: Cannot determine user location for geographically restricted operation
 
-    # 🔍 DEBUG EN STREAMLIT - Lo que enviamos a Google Books
-    st.markdown("### 🔍 DEBUG - Consulta enviada a Google Books")
-    st.write("Query:", q)
-    st.write("Parámetros:", params)
-    st.write("URL:", GOOGLE_BOOKS_URL)
+    # PARA DEBUG EN STREAMLIT - Lo que enviamos a Google Books
+    # st.markdown("### 🔍 DEBUG - Consulta enviada a Google Books")
+    # st.write("Query:", q)
+    # st.write("Parámetros:", params)
+    # st.write("URL:", GOOGLE_BOOKS_URL)
     
     
     # =======================
@@ -220,13 +220,13 @@ def buscar_en_google_books(isbn=None, titulo=None, autor=None):
     try:
         r = requests.get(GOOGLE_BOOKS_URL, params=params, timeout=10)
 
-        # 🔍 DEBUG EN STREAMLIT - Respuesta HTTP
-        st.markdown("### 📥 DEBUG - RAW Response de Google Books")
-        st.write("Status:", r.status_code)
-        st.write("Headers:", dict(r.headers))
+        # PARA DEBUG EN STREAMLIT - Respuesta HTTP
+        # st.markdown("### 📥 DEBUG - RAW Response de Google Books")
+        # st.write("Status:", r.status_code)
+        # st.write("Headers:", dict(r.headers))
         # Mostrar texto RAW (limitado)
-        raw_text = r.text[:1500] + "..." if len(r.text) > 1500 else r.text
-        st.code(raw_text, language="json")
+        # raw_text = r.text[:1500] + "..." if len(r.text) > 1500 else r.text
+        # st.code(raw_text, language="json")
 
 
         
@@ -244,15 +244,12 @@ def buscar_en_google_books(isbn=None, titulo=None, autor=None):
         r.raise_for_status()
         data = r.json()
 
-        # 🔍 DEBUG JSON parseado
-        st.markdown("### 📥 DEBUG - JSON parseado de Google Books")
-        st.json(data)
-
+        # PARA DEBUG EN STREAMLIT JSON parseado
+        # st.markdown("### 📥 DEBUG - JSON parseado de Google Books")
+        # st.json(data)
     
     except Exception:
         return None
-
-
 
     
     items = data.get("items")
@@ -285,8 +282,9 @@ def buscar_en_google_books(isbn=None, titulo=None, autor=None):
     if portada_url.startswith("http://"):
         portada_url = "https://" + portada_url[len("http://"):]
 
-    st.markdown("### 📤 DEBUG - Resultado final enviado a la app")
-    st.json(resultado)
+    # PARA DEBUG EN STREAMLIT
+    # st.markdown("### 📤 DEBUG - Resultado final enviado a la app")
+    # st.json(resultado)
 
     return {
         "titulo": (info.get("title") or "").strip(),
