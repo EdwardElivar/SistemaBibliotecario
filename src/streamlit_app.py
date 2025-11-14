@@ -204,7 +204,7 @@ def pantalla_login():
 
     with st.container():
         #st.markdown('<div class="login-card">', unsafe_allow_html=True)
-        st.image("../assets/images/bookia.png")
+        st.image("/mount/src/sistemabibliotecario/assets/images/bookia.png")
         tab_login, tab_register = st.tabs(["Iniciar sesión", "Crear cuenta"])
 
         # -------- LOGIN ----------
