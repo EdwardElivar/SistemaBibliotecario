@@ -462,7 +462,7 @@ def vista_todos():
 
 def vista_escanear_libro():
     import hashlib
-    import streamlit as st # type: ignore
+    import streamlit as st  # type: ignore
     from crud_libros import insertar_libro
     from external_services import identificar_libro_por_imagen
 
@@ -629,33 +629,30 @@ def vista_escanear_libro():
         unsafe_allow_html=True,
     )
 
-    # ===== CONTENEDOR PRINCIPAL =====
-
-    st.markdown(
-        """
-        <div class='scan-badge-wrap'>
-            <div class='scan-badge'>
-                <span>🧬 Módulo de Vision con IA activo</span>
-            </div>
-        </div>
-        <div>
-            <p class='scan-subtitle'>
-            </p>
-        </div>
-        <div class='scan-divider'></div>
-        """,
-        unsafe_allow_html=True,
-    )
-
     # ===== VARIABLES DE SESIÓN =====
     if "scan_data" not in st.session_state:
         st.session_state.scan_data = None
     if "scan_image_hash" not in st.session_state:
         st.session_state.scan_image_hash = None
+    if "scan_guardado_ok" not in st.session_state:
+        st.session_state.scan_guardado_ok = False
+
+    # contador para resetear la cámara creando una nueva key cuando se necesite
+    if "camera_counter" not in st.session_state:
+        st.session_state.camera_counter = 0
+
+    # Mensaje de éxito persistente después de guardar
+    if st.session_state.scan_guardado_ok:
+        st.success("📚 Libro guardado correctamente en tu biblioteca.")
+        # Lo apagamos para que no se quede para siempre
+        st.session_state.scan_guardado_ok = False
+
 
     # ===== CÁMARA + OVERLAY =====
     st.markdown("<div class='scan-cam-wrapper'>", unsafe_allow_html=True)
-    img = st.camera_input("Captura la portada del libro", key="cam_portada")
+
+    camera_key = f"cam_portada_{st.session_state.camera_counter}"
+    img = st.camera_input("Captura la portada del libro", key=camera_key)
 
     st.markdown(
         """
@@ -681,7 +678,7 @@ def vista_escanear_libro():
         scan_clicked = st.button("🔍 Identificar libro con OpenAI", key="btn_identificar_ia")
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # ===== PROCESO DE ESCANEO (con validación fuerte) =====
+    # ===== PROCESO DE ESCANEO =====
     if img is not None and scan_clicked:
         with st.spinner("🤖 Analizando portada con IA..."):
             data, error = identificar_libro_por_imagen(img.getvalue())
@@ -705,10 +702,8 @@ def vista_escanear_libro():
             except Exception:
                 anio_val = 0
 
-            # ¿Hay al menos UN dato útil?
             hay_algo = any([titulo, autor, isbn, editorial, anio_val])
 
-            # ¿Hay datos suficientes como para decir "identificado"?
             score = 0
             if titulo:
                 score += 1
@@ -718,21 +713,21 @@ def vista_escanear_libro():
                 score += 1
 
             if not hay_algo:
-                # Nada confiable
                 st.warning(
                     "📕 Libro no identificado. No se detectaron datos confiables en la imagen.\n"
                     "Asegúrate de que la portada sea legible y ocupe la mayor parte de la foto."
                 )
                 st.session_state.scan_data = None
-
             else:
-                # Guardamos lo que haya para permitir edición manual
+                # 👉 Guardamos también portada y descripción
                 st.session_state.scan_data = {
                     "titulo": titulo,
                     "autor": autor,
                     "isbn": isbn,
                     "editorial": editorial,
                     "anio": anio_val,
+                    "portada_url": (data.get("portada_url") or "").strip(),
+                    "descripcion": (data.get("descripcion") or "").strip(),
                 }
 
                 if score >= 2 or (isbn and (titulo or autor)):
@@ -769,25 +764,16 @@ def vista_escanear_libro():
         editorial = st.text_input("Editorial", d.get("editorial", ""), key="scan_editorial")
 
         st.markdown("</div>", unsafe_allow_html=True)
-        
-        #=============================================================
-        # Mostrar imagen de portada desde Google Books si existe
-        # if data and data.get("portada_url"):
-        #     st.image(data["portada_url"])  # Streamlit ya ajusta ancho por defecto
 
         # =============================================================
-        # CARD PORTADA + DESCRIPCIÓN CON FLECHA DE EXPANSIÓN
+        # CARD PORTADA + DESCRIPCIÓN (primeros 350 caracteres)
         # =============================================================
+        portada = d.get("portada_url")
+        descripcion = (d.get("descripcion") or "").strip()
 
-        if data:
-            portada = data.get("portada_url")
-            descripcion = (data.get("descripcion") or "").strip()
-
-
-        # Solo mostramos el card si hay al menos portada o descripción
         if portada or descripcion:
-
-            st.markdown("""
+            st.markdown(
+                """
                 <style>
                     .book-card {
                         background: radial-gradient(circle at top left, rgba(15,23,42,0.98), #020617);
@@ -818,16 +804,17 @@ def vista_escanear_libro():
                         text-shadow: 0 0 12px rgba(129,140,248,0.45);
                     }
                 </style>
-            """, unsafe_allow_html=True)
+                """,
+                unsafe_allow_html=True,
+            )
 
+            st.markdown("<div class='book-card'>", unsafe_allow_html=True)
             col1, col2 = st.columns([1, 2])
 
-            # Columna izquierda: portada
             with col1:
                 if portada:
                     st.image(portada, caption="Portada del libro")
 
-            # Columna derecha: descripción recortada
             with col2:
                 if descripcion:
                     resumen = descripcion[:350] + ("..." if len(descripcion) > 350 else "")
@@ -835,11 +822,7 @@ def vista_escanear_libro():
                     st.markdown(f"<p class='desc-text'>{resumen}</p>", unsafe_allow_html=True)
 
             st.markdown("</div>", unsafe_allow_html=True)
-
-
-
-
-        #=============================================================
+        # =============================================================
 
         # ===== BOTÓN GUARDAR =====
         st.markdown("<div class='scan-center-btn'>", unsafe_allow_html=True)
@@ -855,12 +838,19 @@ def vista_escanear_libro():
                     editorial.strip(),
                 )
                 if ok:
-                    st.success("📚 Libro guardado correctamente en tu biblioteca.")
+
+                    # después de guardar correctamente:
+                    st.session_state.scan_guardado_ok = True
                     st.session_state.scan_data = None
                     st.session_state.scan_image_hash = None
+
+                    # incrementamos el contador para "resetear" la cámara (nueva key => widget vacío)
+                    st.session_state.camera_counter += 1
+
                 else:
                     st.error(msg)
         st.markdown("</div>", unsafe_allow_html=True)
+
 
     # ===== CIERRE CONTENEDORES =====
     st.markdown("</div></div>", unsafe_allow_html=True)
