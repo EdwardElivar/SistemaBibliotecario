@@ -808,7 +808,7 @@ def vista_escanear_libro():
                 unsafe_allow_html=True,
             )
 
-            st.markdown("<div class='book-card'>", unsafe_allow_html=True)
+            #st.markdown("<div class='book-card'>", unsafe_allow_html=True)
             col1, col2 = st.columns([1, 2])
 
             with col1:
