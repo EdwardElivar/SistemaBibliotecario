@@ -675,12 +675,12 @@ def vista_escanear_libro():
     scan_clicked = False
     if img is not None:
         st.markdown("<div class='scan-center-btn'>", unsafe_allow_html=True)
-        scan_clicked = st.button("🔍 Identificar libro con OpenAI", key="btn_identificar_ia")
+        scan_clicked = st.button("🔍 Identificar libro con Inteligencia Artificial", key="btn_identificar_ia")
         st.markdown("</div>", unsafe_allow_html=True)
 
     # ===== PROCESO DE ESCANEO =====
     if img is not None and scan_clicked:
-        with st.spinner("🤖 Analizando portada con IA..."):
+        with st.spinner("🤖 Analizando portada con OpenAI..."):
             data, error = identificar_libro_por_imagen(img.getvalue())
 
         if error:
